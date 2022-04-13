@@ -25,13 +25,14 @@ To solve this problem I wrote the code file bp.java.
 - First, navigate to the directory where you have the program saved in your command line.
 - Type the following command
 ```
-prompt> javac replace.java
+prompt> javac bpp.java
 ```
 - After that command executes, type the following command:
 ```
-prompt> java replace
+prompt> java bpp
 ```
 ### Solution description:
+
 
 ## Problem 2: Atmospheric Temperature Reading Module
 ### Problem description:
