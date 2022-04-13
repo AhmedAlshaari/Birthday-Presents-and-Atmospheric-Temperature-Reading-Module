@@ -56,6 +56,6 @@ prompt> java ATRM
 - After those two commands, the program will ask you to input a number of hours to simulate, after inputting a certain number of hours simulation will print a report for each of those hours.
 
 ### Solution description:
-For this solution I created an AtomicInteger counter that will represent every minute where there is a temperature reading, then I also created 8 threads, each of those threads gets the current counter and increments it then generates a temperature for that reading. then compares that temperature to the current top 5 and bottom five temperatures accordingly. after the whole simulation is finished, the program generates and prints out a report for each hour.
+For this solution I created an AtomicInteger counter that will represent every minute where there is a temperature reading, then I also created 8 threads, each of those threads gets the current counter and increments it then generates a temperature for that reading. then compares that temperature to the current top 5 and bottom 5 temperatures and updates them accordingly. after the whole simulation is finished, the program generates and prints out a report for each hour.
 
-This program is efficient with a lock-free progress guarantee, and it guarantees correctness since it uses an Atomicinteger as shared memory, and the efficiency comes from each thread taking the next counter once it finishes processing the current one it occupies. 
+This program is efficient with a lock-free progress guarantee, and it guarantees correctness since it uses an AtomicInteger as shared memory, and the efficiency comes from each thread taking the next counter once it finishes processing the current one it holds. 
