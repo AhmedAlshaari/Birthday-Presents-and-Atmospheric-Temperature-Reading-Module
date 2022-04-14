@@ -32,7 +32,13 @@ prompt> javac bpp.java
 prompt> java bpp
 ```
 ### Solution description:
+First to address the case of where the servents found that they wrote less thank you cards than they had presents, one potential reason for that would be that they did not deal with contention properly in their approach. 
 
+Here is an example scenario that displays that:
+![image](https://user-images.githubusercontent.com/89872696/163303211-837a59b0-b1bf-4721-87b1-a32c42c66647.png)
+If one servent is about to remove gift a from the chain and write a thank you card for it while another servent is trying to add gift b, then one outcome depending on the course of the events is that the first servent successfully removes gift a but due to how the chain is connected gift b might never b added.
+
+For the code equivlant version of this explaination is if the first thread applies compareAndSet() to head.next, while the second thread applies compareAndSet() to a.next. The net effect is that a is correctly deleted but b is not added to the list. 
 
 ## Problem 2: Atmospheric Temperature Reading Module
 ### Problem description:
