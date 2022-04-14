@@ -32,15 +32,20 @@ prompt> javac bpp.java
 prompt> java bpp
 ```
 ### Solution description:
-First to address the case of where the servents found that they wrote less thank you cards than they had presents, one potential reason for that would be that they did not deal with contention properly in their approach. 
+First to address the case of where the servents found that they wrote fewer thank you cards than they had presents, one potential reason for that would be that they did not deal with contention properly in their approach. 
 
 Here is an example scenario that displays that:
 
 ![image](https://user-images.githubusercontent.com/89872696/163303211-837a59b0-b1bf-4721-87b1-a32c42c66647.png)
 
-If one servent is about to remove gift a from the chain and write a thank you card for it while another servent is trying to add gift b, then one outcome depending on the course of the events is that the first servent successfully removes gift a but due to how the chain is connected gift b might never b added.
+If one servent is about to remove gift a from the chain and write a thank you card for it while another servent is trying to add gift b, then one outcome depending on the course of events is that the first servant successfully removes gift a but due to how the chain is connected gift b might never b added.
 
-For the code equivlant version of this explaination is if the first thread applies compareAndSet() to head.next, while the second thread applies compareAndSet() to a.next. The net effect is that a is correctly deleted but b is not added to the list. 
+The code equivalent version of this explanation is if the first thread applies compareAndSet() to head.next, while the second thread applies compareAndSet() to a.next. The net effect is that a is correctly deleted but b is not added to the list. 
+
+A better strategy would be to use something called Optimistic Synchronization, the way it works in code is the following:
+Both the add and remove methods do not lock until they find the correct location to add or the correct node to remove, after they do they acquire the lock, and make sure no other thread did any work while they were acquiring the locks they validate the two locked nodes, if the validation fails then they unlock and retraverse the set. 
+
+This LinkedList-based set implementation while it is not starvation-free, even if all node locks are individually starvation-free. A thread might be delayed forever if new nodes are repeatedly added and removed where it repeatedly fails the validation, this algorithm still does very well since there is a very small chance this scenario occurs.
 
 ## Problem 2: Atmospheric Temperature Reading Module
 ### Problem description:
@@ -68,3 +73,5 @@ prompt> java ATRM
 For this solution I created an AtomicInteger counter that will represent every minute where there is a temperature reading, then I also created 8 threads, each of those threads gets the current counter and increments it then generates a temperature for that reading. then compares that temperature to the current top 5 and bottom 5 temperatures and updates them accordingly. after the whole simulation is finished, the program generates and prints out a report for each hour.
 
 This program is efficient with a lock-free progress guarantee, and it guarantees correctness since it uses an AtomicInteger as shared memory, and the efficiency comes from each thread taking the next counter once it finishes processing the current one it holds. 
+
+Chapter 9 of the book "The Art of Multiprocessor Programming" by Maurice Herlihy and Nir Shavit was used for a lot of the information on this repository.
